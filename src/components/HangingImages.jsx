@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Heart } from 'lucide-react'
 import lovelyCoupleData from '../data/svgs/lovely-couple-hugging.json'
+import weddingRingsData from '../data/svgs/intertwined-wedding-rings-with-diamonds.json'
 import SVGFromJSON from './SVGFromJSON'
 
 const HangingImages = () => {
@@ -207,6 +208,37 @@ const HangingImages = () => {
           })}
         </div>
       </div>
+
+      {/* Intertwined Wedding Rings Animation - Left Middle */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0, x: -50 }}
+        whileInView={{ opacity: 1, scale: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.7, duration: 1, ease: 'easeOut' }}
+        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 pointer-events-none w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-52 lg:h-52"
+      >
+        <motion.div
+          animate={{
+            rotate: [0, 10, -10, 0],
+            scale: [1, 1.05, 1],
+            y: [0, -8, 0],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+          className="w-full h-full"
+        >
+          <SVGFromJSON
+            jsonData={weddingRingsData}
+            uniqueId="hanging-images-wedding-rings"
+            className="w-full h-full"
+            loop={true}
+            autoplay={true}
+          />
+        </motion.div>
+      </motion.div>
 
       {/* Lovely Couple Hugging Animation - Right Bottom (only in this section) */}
       <motion.div
