@@ -4,6 +4,7 @@ import FloatingHearts from './components/FloatingHearts'
 import LoveTimeline from './components/LoveTimeline'
 import InteractiveNotes from './components/InteractiveNotes'
 import HangingImages from './components/HangingImages'
+import GiftForYou from './components/GiftForYou'
 import LoadingAnimation from './components/LoadingAnimation'
 import RandomSVGs from './components/RandomSVGs'
 import LoveModal from './components/LoveModal'
@@ -61,6 +62,7 @@ const App = () => {
           <HangingImages />
           <LoveTimeline />
           <InteractiveNotes />
+          <GiftForYou />
         </div>
       )}
     </>

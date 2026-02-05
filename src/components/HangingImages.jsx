@@ -1,12 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Heart } from 'lucide-react'
 import lovelyCoupleData from '../data/svgs/lovely-couple-hugging.json'
 import weddingRingsData from '../data/svgs/intertwined-wedding-rings-with-diamonds.json'
 import SVGFromJSON from './SVGFromJSON'
+import image1 from '../assets/images/1.jpeg'
+import image2 from '../assets/images/2.jpeg'
+import image3 from '../assets/images/3.jpg'
+import image4 from '../assets/images/4.jpg'
 
 const HangingImages = () => {
   const [selectedImage, setSelectedImage] = useState(null)
+  
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (selectedImage) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [selectedImage])
   
   // Pre-generate random values for each image
   const imageProperties = useState(() => {
@@ -22,33 +38,32 @@ const HangingImages = () => {
     })
   })[0]
 
-  // Placeholder images - replace these with your actual couple photos
-  // You can add images to public/images/ folder and reference them
+  // Our beautiful memories - images from assets folder
   const coupleImages = [
     {
       id: 1,
-      src: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&h=600&fit=crop',
+      src: image1,
       alt: 'Our beautiful moments',
       date: 'Our First Date',
       note: 'The day everything changed',
     },
     {
       id: 2,
-      src: 'https://images.unsplash.com/photo-1518568814500-bf0f8e125f46?w=400&h=600&fit=crop',
+      src: image2,
       alt: 'Memories together',
       date: 'A Special Day',
       note: 'Forever in my heart',
     },
     {
       id: 3,
-      src: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&h=600&fit=crop',
+      src: image3,
       alt: 'Our journey',
       date: 'Beautiful Moments',
       note: 'Every second with you is precious',
     },
     {
       id: 4,
-      src: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400&h=600&fit=crop',
+      src: image4,
       alt: 'Love story',
       date: 'Together Forever',
       note: 'You make everything better',
@@ -278,35 +293,48 @@ const HangingImages = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 overflow-hidden"
+            style={{ zIndex: 99999, position: 'fixed' }}
             onClick={() => setSelectedImage(null)}
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="relative max-w-4xl max-h-[90vh]"
+              className="relative max-w-3xl w-full max-h-[85vh] flex flex-col items-center justify-center"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={() => setSelectedImage(null)}
-                className="absolute -top-12 right-0 text-white hover:text-pink-300 transition-colors"
+                className="absolute -top-12 right-0 text-white hover:text-pink-300 transition-colors z-10 bg-black/50 rounded-full p-2 backdrop-blur-sm"
               >
-                <X className="w-8 h-8" />
+                <X className="w-6 h-6" />
               </button>
-              <img
-                src={selectedImage.src}
-                alt={selectedImage.alt}
-                className="w-full h-auto rounded-lg shadow-2xl"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 rounded-b-lg">
+              
+              {/* Image container - centered and scrollable */}
+              <div className="w-full max-h-[70vh] overflow-auto rounded-lg shadow-2xl bg-black/20 backdrop-blur-sm">
+                <img
+                  src={selectedImage.src}
+                  alt={selectedImage.alt}
+                  className="w-full h-auto object-contain rounded-lg"
+                  style={{ maxHeight: '70vh' }}
+                />
+              </div>
+              
+              {/* Image info */}
+              <div className="mt-4 text-center bg-black/50 backdrop-blur-sm rounded-lg p-4 w-full">
                 <h3 
-                  className="text-white text-2xl font-bold mb-2"
+                  className="text-white text-xl md:text-2xl font-bold mb-2"
                   style={{ fontFamily: "'DynaPuff', cursive" }}
                 >
                   {selectedImage.date}
                 </h3>
-                <p className="text-white/90">{selectedImage.note}</p>
+                <p 
+                  className="text-white/90 text-sm md:text-base"
+                  style={{ fontFamily: "'Gorditas', cursive" }}
+                >
+                  {selectedImage.note}
+                </p>
               </div>
             </motion.div>
           </motion.div>
