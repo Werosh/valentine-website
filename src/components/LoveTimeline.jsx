@@ -17,7 +17,7 @@ const LoveTimeline = () => {
       id: 2,
       date: 'Our First Date',
       title: 'A Day to Remember',
-      description: 'Every moment felt like a dream. Your laugh, your gentle touch, the way you looked at me—everything about you captured my heart completely.',
+      description: 'Every moment felt like a dream. Your laugh, your gentle touch, the way you looked at me - everything about you captured my heart completely.',
       icon: Calendar,
       color: '#ff8fab',
       gradient: 'from-rose-200 via-pink-100 to-rose-200',
@@ -43,7 +43,7 @@ const LoveTimeline = () => {
   ]
 
   return (
-    <section className="min-h-screen py-20 px-4 relative z-10 overflow-hidden">
+    <section className="min-h-screen py-44 px-4 relative z-10 overflow-hidden mt-20">
       {/* Soft romantic background */}
       <div className="absolute inset-0 bg-gradient-to-b from-pink-50/80 via-rose-50/60 to-pink-100/80"></div>
       
