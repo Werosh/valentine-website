@@ -9,7 +9,7 @@ const HangingImages = () => {
   
   // Pre-generate random values for each image
   const imageProperties = useState(() => {
-    return Array.from({ length: 4 }, (_, i) => {
+    return Array.from({ length: 4 }, () => {
       const randomValues = Array.from({ length: 5 }, () => Math.random())
       return {
         rotation: randomValues[0] * 6 - 3, // -3 to 3 degrees
@@ -146,43 +146,75 @@ const HangingImages = () => {
                     delay: index * 0.3,
                   }}
                   whileHover={{ scale: 1.05, rotate: props.rotation }}
-                  className="relative bg-white p-2 shadow-lg rounded-lg"
+                  className="relative p-2 shadow-lg rounded-lg overflow-hidden"
                   style={{
                     boxShadow: '0 10px 30px rgba(255, 107, 157, 0.3)',
+                    background: 'linear-gradient(135deg, #fef5e7 0%, #f9e6d3 50%, #f5d5a8 100%)',
                   }}
                 >
-                <div className="relative overflow-hidden rounded-md">
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                  {/* Vintage paper texture overlay */}
+                  <div
+                    className="absolute inset-0 opacity-30 pointer-events-none"
+                    style={{
+                      backgroundImage: `
+                        repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(139, 90, 43, 0.1) 1px, rgba(139, 90, 43, 0.1) 2px),
+                        repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(139, 90, 43, 0.1) 1px, rgba(139, 90, 43, 0.1) 2px),
+                        radial-gradient(circle at 20% 30%, rgba(139, 90, 43, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(139, 90, 43, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 50%, rgba(139, 90, 43, 0.08) 0%, transparent 60%)
+                      `,
+                      mixBlendMode: 'multiply',
+                    }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-4 left-4 right-4 text-white">
-                      <p className="font-semibold">{image.date}</p>
-                      <p className="text-sm">{image.note}</p>
+                  
+                  {/* Paper aging spots */}
+                  <div
+                    className="absolute inset-0 opacity-20 pointer-events-none"
+                    style={{
+                      backgroundImage: `
+                        radial-gradient(circle at 15% 25%, rgba(139, 90, 43, 0.3) 1px, transparent 1px),
+                        radial-gradient(circle at 85% 75%, rgba(139, 90, 43, 0.25) 1px, transparent 1px),
+                        radial-gradient(circle at 45% 60%, rgba(139, 90, 43, 0.2) 1px, transparent 1px),
+                        radial-gradient(circle at 70% 20%, rgba(139, 90, 43, 0.15) 1px, transparent 1px)
+                      `,
+                      backgroundSize: '100% 100%, 100% 100%, 100% 100%, 100% 100%',
+                    }}
+                  />
+                  
+                  {/* Content wrapper */}
+                  <div className="relative z-10">
+                    <div className="relative overflow-hidden rounded-md">
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="absolute bottom-4 left-4 right-4 text-white">
+                          <p className="font-semibold">{image.date}</p>
+                          <p className="text-sm">{image.note}</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-
-                {/* Decorative corner */}
-                <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-pink-300"></div>
-                <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-pink-300"></div>
-              </motion.div>
+                  
+                  {/* Decorative corner */}
+                  <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-amber-700/30 z-20"></div>
+                  <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-amber-700/30 z-20"></div>
+                </motion.div>
             </motion.div>
             )
           })}
         </div>
       </div>
 
-      {/* Lovely Couple Hugging Animation - Right Bottom */}
+      {/* Lovely Couple Hugging Animation - Right Bottom (only in this section) */}
       <motion.div
         initial={{ opacity: 0, scale: 0, x: 50, y: 50 }}
         whileInView={{ opacity: 1, scale: 1, x: 0, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.5, duration: 1, ease: 'easeOut' }}
-        className="fixed right-4 bottom-4 md:right-8 md:bottom-8 z-20 pointer-events-none w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-52 lg:h-52"
+        className="absolute right-4 bottom-4 md:right-8 md:bottom-8 z-20 pointer-events-none w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-52 lg:h-52"
       >
         <motion.div
           animate={{
