@@ -50,7 +50,7 @@ const LoveTimeline = () => {
         <h2
           className="text-4xl md:text-6xl font-bold mb-4"
           style={{
-            fontFamily: "'Dancing Script', cursive",
+            fontFamily: "'DynaPuff', cursive",
             background: 'linear-gradient(135deg, #ff6b9d 0%, #c44569 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -61,7 +61,7 @@ const LoveTimeline = () => {
         </h2>
         <p
           className="text-lg md:text-xl text-pink-700"
-          style={{ fontFamily: "'Playfair Display', serif" }}
+          style={{ fontFamily: "'Gorditas', cursive" }}
         >
           A timeline of our beautiful journey together
         </p>
@@ -127,7 +127,7 @@ const LoveTimeline = () => {
                     <h3
                       className="text-2xl font-bold mb-3"
                       style={{
-                        fontFamily: "'Dancing Script', cursive",
+                        fontFamily: "'DynaPuff', cursive",
                         color: event.color,
                       }}
                     >
@@ -135,7 +135,7 @@ const LoveTimeline = () => {
                     </h3>
                     <p
                       className="text-pink-700 leading-relaxed"
-                      style={{ fontFamily: "'Playfair Display', serif" }}
+                      style={{ fontFamily: "'Gorditas', cursive" }}
                     >
                       {event.description}
                     </p>

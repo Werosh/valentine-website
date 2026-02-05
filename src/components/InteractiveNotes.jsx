@@ -73,7 +73,7 @@ const InteractiveNotes = () => {
         <h2
           className="text-4xl md:text-6xl font-bold mb-4"
           style={{
-            fontFamily: "'Dancing Script', cursive",
+            fontFamily: "'DynaPuff', cursive",
             background: 'linear-gradient(135deg, #ff6b9d 0%, #c44569 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -84,7 +84,7 @@ const InteractiveNotes = () => {
         </h2>
         <p
           className="text-lg md:text-xl text-pink-700 mb-4"
-          style={{ fontFamily: "'Playfair Display', serif" }}
+          style={{ fontFamily: "'Gorditas', cursive" }}
         >
           Click to reveal hidden messages from my heart
         </p>
@@ -154,7 +154,7 @@ const InteractiveNotes = () => {
                     <h3
                       className="text-2xl font-bold mb-4"
                       style={{
-                        fontFamily: "'Dancing Script', cursive",
+                        fontFamily: "'DynaPuff', cursive",
                         color: note.color,
                       }}
                     >
@@ -176,7 +176,7 @@ const InteractiveNotes = () => {
                             animate={{ y: 0 }}
                             transition={{ delay: 0.2 }}
                             className="text-pink-700 leading-relaxed"
-                            style={{ fontFamily: "'Playfair Display', serif" }}
+                            style={{ fontFamily: "'Gorditas', cursive" }}
                           >
                             {note.message}
                           </motion.p>

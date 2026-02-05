@@ -6,6 +6,7 @@ import InteractiveNotes from './components/InteractiveNotes'
 import HangingImages from './components/HangingImages'
 import LoadingAnimation from './components/LoadingAnimation'
 import RandomSVGs from './components/RandomSVGs'
+import LoveModal from './components/LoveModal'
 
 // Heart Boom SVG from Lottie
 const heartBoomSVG = `
@@ -27,15 +28,27 @@ const heartBoomSVG = `
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true)
+  const [showLoveModal, setShowLoveModal] = useState(false)
+  const [showMainSite, setShowMainSite] = useState(false)
 
   const handleLoadingComplete = () => {
     setIsLoading(false)
+    // Show love modal after loading
+    setTimeout(() => {
+      setShowLoveModal(true)
+    }, 500)
+  }
+
+  const handleLoveModalComplete = () => {
+    setShowLoveModal(false)
+    setShowMainSite(true)
   }
 
   return (
     <>
       {isLoading && <LoadingAnimation onComplete={handleLoadingComplete} />}
-      {!isLoading && (
+      {!isLoading && showLoveModal && <LoveModal onComplete={handleLoveModalComplete} />}
+      {!isLoading && showMainSite && (
         <div className="relative min-h-screen w-full overflow-x-hidden">
           <FloatingHearts />
           <RandomSVGs

@@ -1,12 +1,24 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Heart } from 'lucide-react'
+import lovelyCoupleData from '../data/svgs/lovely-couple-hugging.json'
+import SVGFromJSON from './SVGFromJSON'
 
 const HangingImages = () => {
   const [selectedImage, setSelectedImage] = useState(null)
   
-  const imageRotations = useState(() => {
-    return Array.from({ length: 4 }, (_, i) => Math.random() * 6 - 3)
+  // Pre-generate random values for each image
+  const imageProperties = useState(() => {
+    return Array.from({ length: 4 }, (_, i) => {
+      const randomValues = Array.from({ length: 5 }, () => Math.random())
+      return {
+        rotation: randomValues[0] * 6 - 3, // -3 to 3 degrees
+        ropeLength: 40 + randomValues[1] * 40, // 40 to 80px
+        swingAngle: randomValues[2] * 8 - 4, // -4 to 4 degrees
+        swingDuration: 3 + randomValues[3] * 2, // 3 to 5 seconds
+        swingDelay: randomValues[4] * 0.5, // 0 to 0.5 seconds
+      }
+    })
   })[0]
 
   // Placeholder images - replace these with your actual couple photos
@@ -54,7 +66,7 @@ const HangingImages = () => {
         <h2
           className="text-4xl md:text-6xl font-bold mb-4"
           style={{
-            fontFamily: "'Dancing Script', cursive",
+            fontFamily: "'DynaPuff', cursive",
             background: 'linear-gradient(135deg, #ff6b9d 0%, #c44569 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -65,7 +77,7 @@ const HangingImages = () => {
         </h2>
         <p
           className="text-lg md:text-xl text-pink-700"
-          style={{ fontFamily: "'Playfair Display', serif" }}
+          style={{ fontFamily: "'Gorditas', cursive" }}
         >
           Each photo tells a story of our love
         </p>
@@ -154,7 +166,12 @@ const HangingImages = () => {
                 className="w-full h-auto rounded-lg shadow-2xl"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 rounded-b-lg">
-                <h3 className="text-white text-2xl font-bold mb-2">{selectedImage.date}</h3>
+                <h3 
+                  className="text-white text-2xl font-bold mb-2"
+                  style={{ fontFamily: "'DynaPuff', cursive" }}
+                >
+                  {selectedImage.date}
+                </h3>
                 <p className="text-white/90">{selectedImage.note}</p>
               </div>
             </motion.div>
