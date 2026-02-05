@@ -85,35 +85,72 @@ const HangingImages = () => {
 
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {coupleImages.map((image, index) => (
-            <motion.div
-              key={image.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.2, duration: 0.6 }}
-              className="relative group cursor-pointer"
-              onClick={() => setSelectedImage(image)}
-            >
-              {/* Hanging string */}
-              <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-0.5 h-8 bg-pink-300"></div>
-              
-              {/* Paper clip or hook */}
+          {coupleImages.map((image, index) => {
+            const props = imageProperties[index]
+            return (
               <motion.div
-                whileHover={{ scale: 1.2, rotate: 15 }}
-                className="absolute -top-8 left-1/2 transform -translate-x-1/2"
-              >
-                <Heart className="w-6 h-6 text-pink-400 fill-pink-400" />
-              </motion.div>
-
-              {/* Photo frame */}
-              <motion.div
-                whileHover={{ scale: 1.05, rotate: imageRotations[index] }}
-                className="relative bg-white p-2 shadow-lg rounded-lg"
+                key={image.id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.2, duration: 0.6 }}
+                className="relative group cursor-pointer"
+                onClick={() => setSelectedImage(image)}
                 style={{
-                  boxShadow: '0 10px 30px rgba(255, 107, 157, 0.3)',
+                  paddingTop: `${props.ropeLength}px`,
                 }}
               >
+                {/* Hanging rope with swing animation */}
+                <motion.div
+                  animate={{
+                    rotate: [0, props.swingAngle, -props.swingAngle, 0],
+                  }}
+                  transition={{
+                    duration: props.swingDuration,
+                    delay: props.swingDelay,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  }}
+                  className="absolute top-0 left-1/2 transform -translate-x-1/2 origin-top"
+                  style={{
+                    transformOrigin: 'top center',
+                  }}
+                >
+                  {/* Rope line */}
+                  <div
+                    className="w-0.5 bg-pink-300 mx-auto"
+                    style={{
+                      height: `${props.ropeLength}px`,
+                    }}
+                  />
+                  
+                  {/* Paper clip or hook */}
+                  <motion.div
+                    whileHover={{ scale: 1.2, rotate: 15 }}
+                    className="absolute top-0 left-1/2 transform -translate-x-1/2"
+                  >
+                    <Heart className="w-6 h-6 text-pink-400 fill-pink-400" />
+                  </motion.div>
+                </motion.div>
+
+                {/* Photo frame with floating animation */}
+                <motion.div
+                  animate={{
+                    y: [0, -8, 0],
+                    rotate: [0, props.rotation * 0.5, -props.rotation * 0.5, 0],
+                  }}
+                  transition={{
+                    duration: 4 + index * 0.5,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    delay: index * 0.3,
+                  }}
+                  whileHover={{ scale: 1.05, rotate: props.rotation }}
+                  className="relative bg-white p-2 shadow-lg rounded-lg"
+                  style={{
+                    boxShadow: '0 10px 30px rgba(255, 107, 157, 0.3)',
+                  }}
+                >
                 <div className="relative overflow-hidden rounded-md">
                   <img
                     src={image.src}
@@ -129,13 +166,46 @@ const HangingImages = () => {
                 </div>
               </motion.div>
 
-              {/* Decorative corner */}
-              <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-pink-300"></div>
-              <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-pink-300"></div>
+                {/* Decorative corner */}
+                <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-pink-300"></div>
+                <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-pink-300"></div>
+              </motion.div>
             </motion.div>
-          ))}
+            )
+          })}
         </div>
       </div>
+
+      {/* Lovely Couple Hugging Animation - Right Bottom */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0, x: 50, y: 50 }}
+        whileInView={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.5, duration: 1, ease: 'easeOut' }}
+        className="fixed right-4 bottom-4 md:right-8 md:bottom-8 z-20 pointer-events-none w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-52 lg:h-52"
+      >
+        <motion.div
+          animate={{
+            rotate: [0, 5, -5, 0],
+            scale: [1, 1.05, 1],
+            y: [0, -10, 0],
+          }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+          className="w-full h-full"
+        >
+          <SVGFromJSON
+            jsonData={lovelyCoupleData}
+            uniqueId="hanging-images-couple"
+            className="w-full h-full"
+            loop={true}
+            autoplay={true}
+          />
+        </motion.div>
+      </motion.div>
 
       {/* Full screen image modal */}
       <AnimatePresence>
