@@ -8,6 +8,7 @@ import GiftForYou from './components/GiftForYou'
 import LoadingAnimation from './components/LoadingAnimation'
 import RandomSVGs from './components/RandomSVGs'
 import LoveModal from './components/LoveModal'
+import BackgroundMusic from './components/BackgroundMusic'
 
 // Heart Boom SVG from Lottie
 const heartBoomSVG = `
@@ -47,6 +48,7 @@ const App = () => {
 
   return (
     <>
+      <BackgroundMusic src="/background-music.mp3" volume={0.5} />
       {isLoading && <LoadingAnimation onComplete={handleLoadingComplete} />}
       {!isLoading && showLoveModal && <LoveModal onComplete={handleLoveModalComplete} />}
       {!isLoading && showMainSite && (

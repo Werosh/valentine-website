@@ -179,7 +179,7 @@ const GiftForYou = () => {
               whileHover={{ scale: 1.1, rotate: 90 }}
               whileTap={{ scale: 0.9 }}
               onClick={closeModal}
-              className="absolute top-6 right-6 z-40 text-amber-800 hover:text-amber-900 transition-colors bg-white/80 rounded-full p-2 shadow-lg"
+              className="absolute top-24 right-8 z-40 text-amber-800 hover:text-amber-900 transition-colors bg-white/80 rounded-full p-2 shadow-lg"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
