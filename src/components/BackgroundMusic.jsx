@@ -10,6 +10,7 @@ const BackgroundMusic = ({ src = '/background-music.mp3', volume = 0.5 }) => {
   const [currentVolume, setCurrentVolume] = useState(volume)
   const [showVolumeControl, setShowVolumeControl] = useState(false)
 
+  // Setup audio properties and event listeners
   useEffect(() => {
     const audio = audioRef.current
 
@@ -27,46 +28,89 @@ const BackgroundMusic = ({ src = '/background-music.mp3', volume = 0.5 }) => {
       audio.addEventListener('play', handlePlay)
       audio.addEventListener('pause', handlePause)
 
-      // Try to play the audio
-      const playPromise = audio.play()
-
-      // Handle autoplay restrictions
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            // Audio started playing successfully
-            console.log('Background music started')
-          })
-          .catch(() => {
-            // Autoplay was prevented - user interaction required
-            console.log('Autoplay prevented. Music will start after user interaction.')
-            
-            // Try to play on first user interaction
-            const playOnInteraction = () => {
-              audio.play().catch(err => console.log('Could not play audio:', err))
-              // Remove listeners after first play
-              document.removeEventListener('click', playOnInteraction)
-              document.removeEventListener('touchstart', playOnInteraction)
-              document.removeEventListener('keydown', playOnInteraction)
-            }
-
-            document.addEventListener('click', playOnInteraction, { once: true })
-            document.addEventListener('touchstart', playOnInteraction, { once: true })
-            document.addEventListener('keydown', playOnInteraction, { once: true })
-          })
-      }
-
       // Cleanup
       return () => {
         audio.removeEventListener('play', handlePlay)
         audio.removeEventListener('pause', handlePause)
-        if (audio) {
-          audio.pause()
-          audio.currentTime = 0
-        }
       }
     }
   }, [currentVolume, isMuted])
+
+  // Try to play music immediately on mount and during loading
+  useEffect(() => {
+    const audio = audioRef.current
+    let hasStartedPlaying = false
+
+    if (audio) {
+      // Function to try playing the audio
+      const tryPlay = () => {
+        if (!isMuted && audio.volume > 0 && !hasStartedPlaying) {
+          const playPromise = audio.play()
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                hasStartedPlaying = true
+                // Remove all interaction listeners once playing
+                document.removeEventListener('click', playOnInteraction)
+                document.removeEventListener('touchstart', playOnInteraction)
+                document.removeEventListener('keydown', playOnInteraction)
+                document.removeEventListener('mousemove', playOnInteraction)
+                document.removeEventListener('scroll', playOnInteraction)
+              })
+              .catch(() => {
+                // Silently handle autoplay prevention
+              })
+          }
+        }
+      }
+
+      // Try to play immediately
+      tryPlay()
+
+      // Try when audio is ready
+      const handleCanPlay = () => {
+        tryPlay()
+      }
+      
+      // Try when audio can play through
+      const handleCanPlayThrough = () => {
+        tryPlay()
+      }
+
+      // Try when audio is loaded
+      const handleLoadedData = () => {
+        tryPlay()
+      }
+
+      audio.addEventListener('canplay', handleCanPlay)
+      audio.addEventListener('canplaythrough', handleCanPlayThrough)
+      audio.addEventListener('loadeddata', handleLoadedData)
+
+      // Try to play on any user interaction
+      const playOnInteraction = () => {
+        tryPlay()
+      }
+
+      // Add multiple event listeners to catch any interaction
+      document.addEventListener('click', playOnInteraction, { once: false })
+      document.addEventListener('touchstart', playOnInteraction, { once: false })
+      document.addEventListener('keydown', playOnInteraction, { once: false })
+      document.addEventListener('mousemove', playOnInteraction, { once: false })
+      document.addEventListener('scroll', playOnInteraction, { once: false })
+
+      // Cleanup
+      return () => {
+        audio.removeEventListener('canplay', handleCanPlay)
+        audio.removeEventListener('canplaythrough', handleCanPlayThrough)
+        audio.removeEventListener('loadeddata', handleLoadedData)
+        document.removeEventListener('click', playOnInteraction)
+        document.removeEventListener('touchstart', playOnInteraction)
+        document.removeEventListener('keydown', playOnInteraction)
+        document.removeEventListener('mousemove', playOnInteraction)
+        document.removeEventListener('scroll', playOnInteraction)
+      }
+    }
+  }, [isMuted])
 
   const toggleMute = () => {
     const audio = audioRef.current
@@ -109,6 +153,7 @@ const BackgroundMusic = ({ src = '/background-music.mp3', volume = 0.5 }) => {
         ref={audioRef}
         src={src}
         preload="auto"
+        loop
         style={{ display: 'none' }}
       />
       
